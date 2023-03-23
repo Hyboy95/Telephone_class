@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+  class Mobile {
+    battery;
+    status;
+    message;
+    inbox;
+    send;
+    constructor(battery,status,message,inbox,send) {
+        this.battery = battery;
+        this.status = status;
+        this.message = message;
+        this.inbox = inbox;
+        this.send = send;
+    }
+
+    checkStatus() {
+        if(!this.status) {
+            console.log("Phone is turn off");
+        } else {
+            console.log("Phone is turn on");
+            if (this.battery > 0) {
+                this.battery --;
+            }
+        }
+    }
+
+    turnOn() {
+        if (!this.status) {
+            this.status = true;
+        } else{
+            console.log("The phone is turn on");
+        }
+        if (this.battery > 0) {
+            this.battery --;
+        }
+    }
+
+    turnOff() {
+        this.status = false;
+        if (this.battery > 0) {
+            this.battery --;
+        }
+    }
+
+
+    viewBattery() {
+        if (this.status) {
+            if (this.battery > 0) {
+                this.battery --;
+            }
+            return `${this.battery} %`;
+        }
+        else {
+            console.log("The phone is turn off");
+        }
+    }
+
+    chargeBattery() {
+        if (this.battery === 100) {
+            console.log("Battery is full");
+        }
+        else if (this.battery + 20 <= 100) {
+            return this.battery += 20;
+        } else {
+            return this.battery = 100;
+        }
+    }
+    writeMessage(text) {
+        if (this.status) {
+            this.message = text;
+            if (this.battery > 0) {
+                this.battery --;
+            }
+        } else {
+            console.log("The phone is turn off");
+        }
+    }
+    sendMessage(mobile) {
+        if (this.status) {
+            mobile.inbox.push(this.message);
+            this.send.push(this.message);
+            if (this.battery > 0) {
+                mobile.battery --;
+            }
+        } else {
+            console.log("The phone is turn off");
+        }
+    }
+  }
+
+  let Nokia = new Mobile(80,false,'',[],[],[]);
+  let Iphone = new Mobile(20,false,'',[],[],[]);
+  Nokia.turnOn();
+  Iphone.turnOn();
+  Nokia.writeMessage("Hello Iphone");
+  Nokia.sendMessage(Iphone);
+  console.log(Nokia.send);
+  console.log(Nokia.viewBattery());
+  Iphone.writeMessage("hello");
+  Iphone.sendMessage(Nokia);
+  Nokia.chargeBattery();
+  Nokia.viewBattery();
+  console.log(Iphone.send);
+  console.log(Iphone.viewBattery());
+</script>
